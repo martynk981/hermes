@@ -1,6 +1,8 @@
 import { Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { InventoryService } from './infentory.service';
+import { ArticleModel } from 'src/database/models/article.model';
+import { InventoryDto } from './dto/inventory.dto';
+import { InventoryService } from './services/infentory.service';
 
 @Controller({
   version: '1',
@@ -12,11 +14,16 @@ export class InventoryController {
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file.buffer.toString());
-  }
+    const fileContent = JSON.parse(file.buffer.toString()) as InventoryDto;
+    const articles = fileContent.inventory.map((dto) => {
+      const article = new ArticleModel();
+      article.id = dto.art_id;
+      article.name = dto.name;
+      article.stock = dto.stock;
 
-  @Get('/test')
-  getEntitlements(): string {
-    return 'we are here!!!' + this.inventoryService.getInventory();
+      return article;
+    });
+
+    this.inventoryService.addArticles(articles);
   }
 }

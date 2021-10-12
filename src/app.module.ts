@@ -23,6 +23,7 @@ import { configValidationSchema } from './config/config.schema';
             host: configService.get('DB_HOST'),
             database: configService.get('DB_SCHEMA'),
             password: configService.get('DB_PASSWORD'),
+            port: 5432,
           },
         },
       }),
