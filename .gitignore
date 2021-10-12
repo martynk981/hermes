@@ -3,6 +3,7 @@
 .idea
 # Config
 .terraform
+.DS_Store
 
 # Logs
 logs

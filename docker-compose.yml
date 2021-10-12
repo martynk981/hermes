@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      APP_DB_USER: hermes
+      APP_DB_PASS: hermes
+      APP_DB_NAME: hermes
+    ports: 
+      - '5432:5432'
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/
+
+  hermes:
+    build:
+      context: .
+    environment:
+      DB_SCHEMA: hermes
+      DB_USER: hermes
+      DB_PASSWORD: hermes
+      DB_HOST: localhost
+    depends_on:
+      - postgres
+    ports:
+      - '3000:3000'
+volumes:
+  hermes-db:

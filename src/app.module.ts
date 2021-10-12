@@ -1,10 +1,34 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { KnexModule } from 'nestjs-knex';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { DataLoaderModule } from './data-loader/data-loader.module';
+import { configValidationSchema } from './config/config.schema';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      cache: true,
+      validationSchema: configValidationSchema,
+    }),
+
+    KnexModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        config: {
+          client: 'pg',
+          connection: {
+            user: configService.get('DB_USER'),
+            host: configService.get('DB_HOST'),
+            database: configService.get('DB_SCHEMA'),
+            password: configService.get('DB_PASSWORD'),
+          },
+        },
+      }),
+    }),
+
+    DataLoaderModule,
+  ],
 })
 export class AppModule {}
