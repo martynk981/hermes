@@ -18,10 +18,10 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
       stock INT NOT NULL DEFAULT 0 CHECK (stock >= 0)
     );
 
-    CREATE TABLE IF NOT EXISTS products_articles (
+    CREATE TABLE IF NOT EXISTS products_content (
       product_id BIGINT NOT NULL,
       article_id BIGINT NOT NULL,
-      amount_of  INT NOT NULL CHECK (amount_of >= 0),
+      quantity   INT NOT NULL CHECK (amount_of >= 0),
       FOREIGN KEY (product_id) REFERENCES products(id),
       FOREIGN KEY (article_id) REFERENCES articles(id)
     );

@@ -1,5 +1,5 @@
 import { ArticleDto } from './article.dto';
 
-export type InventoryDto = {
+export type InventoryFileDto = {
   inventory: Array<ArticleDto>;
 };
