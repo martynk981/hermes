@@ -20,7 +20,7 @@ services:
       DB_SCHEMA: hermes
       DB_USER: hermes
       DB_PASSWORD: hermes
-      DB_HOST: localhost
+      DB_HOST: host.docker.internal
     depends_on:
       - postgres
     ports:
