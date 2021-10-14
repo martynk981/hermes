@@ -1,0 +1,61 @@
+openapi: 3.0.1
+info:
+  title: Hermes service
+  description: Service to manage the warehouse
+  contact:
+    email: martynk981@gmail.com
+  version: 0.0.1
+
+servers:
+  - url: https://localhost:3000
+    description: local env
+
+paths:
+  /data-loader/articles:
+    post:
+      summary: uploads file with the articles
+      responses:
+        201:
+          description: Successful response
+        500:
+          description: Internal server error
+  /data-loader/products:
+    post:
+      summary: uploads file with the products
+      responses:
+        201:
+          description: Successful response
+        500:
+          description: Internal server error
+  /shop/products-list:
+    get:
+      summary: returns the list of all products
+      responses:
+        200:
+          description: Successful response
+        500:
+          description: Internal server error
+  /shop/sell-product:
+    post:
+      summary: sells the product
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              productId:
+                type: number
+                example: 42
+              sellQuantity:
+                type: number
+                example: 2
+                  
+      responses:
+        201:
+          description: Successful response
+        500:
+          description: Internal server error
