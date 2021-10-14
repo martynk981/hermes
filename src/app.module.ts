@@ -31,7 +31,6 @@ import { ShopModule } from './shop/shop.module';
     }),
 
     DataLoaderModule,
-
     ShopModule,
   ],
 })

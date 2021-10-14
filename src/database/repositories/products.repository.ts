@@ -9,11 +9,11 @@ export class ProductsRepository {
   private tableName = 'products';
   private tableNameProductContent = 'product_content';
 
-  constructor(@InjectKnex() private readonly knex: Knex) {}
+  constructor(@InjectKnex() private readonly dbClient: Knex) {}
 
   async insert({ products, productsContent }: ProductInsertDto) {
-    await this.knex.transaction((trx) => {
-      return this.knex(this.tableName)
+    await this.dbClient.transaction((trx) => {
+      return this.dbClient(this.tableName)
         .transacting(trx)
         .returning('id')
         .insert(products)
@@ -26,7 +26,7 @@ export class ProductsRepository {
             });
           });
 
-          return this.knex(this.tableNameProductContent)
+          return this.dbClient(this.tableNameProductContent)
             .transacting(trx)
             .insert(productContentModels)
             .then(() => response);
@@ -50,13 +50,13 @@ export class ProductsRepository {
       `;
 
     const bindParams = filterByProduct ? { id: productId } : undefined;
-    const result = await this.knex.raw(query, bindParams);
+    const result = await this.dbClient.raw(query, bindParams);
 
     return result.rows as ProductAvailabilityDto[];
   }
 
   async getProductContent(productId: number): Promise<ProductContentModel[]> {
-    return await this.knex<ProductContentModel>(this.tableNameProductContent)
+    return await this.dbClient<ProductContentModel>(this.tableNameProductContent)
       .where({ product_id: productId })
       .select();
   }
@@ -68,7 +68,7 @@ export class ProductsRepository {
         MIN(ceil(a.stock/pc.quantity)) as product_quantity
       FROM 
         products AS p2
-      INNER JOIN products_content pc 
+      INNER JOIN product_content pc 
         ON pc.product_id = p2.id 
       INNER JOIN articles a
         ON a.id = pc.article_id

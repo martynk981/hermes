@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { ArticleModel } from 'src/database/models/article.model';
-import { ProductContentModel } from 'src/database/models/product-content.model';
-import { ProductModel } from 'src/database/models/product.model';
-import { ArticlesRepository } from 'src/database/repositories/articles.repository';
-import { ProductsRepository } from 'src/database/repositories/products.repository';
+import { ArticleModel } from '../../database/models/article.model';
+import { ProductContentModel } from '../..//database/models/product-content.model';
+import { ProductModel } from '../..//database/models/product.model';
+import { ArticlesRepository } from '../..//database/repositories/articles.repository';
+import { ProductsRepository } from '../..//database/repositories/products.repository';
 import { ArticleDto } from '../dto/inventory/article.dto';
 import { ProductDto } from '../dto/products/product.dto';
 import { ProductInsertDto } from '../dto/product-insert.dto';

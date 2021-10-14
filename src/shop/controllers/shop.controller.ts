@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Logger, Post } from '@nestjs/common';
-import { ProductAvailabilityDto } from 'src/database/dto/product-availability.dto';
+import { BadRequestException, Body, Controller, Get, Logger, Post } from '@nestjs/common';
+import { ProductAvailabilityDto } from '../../database/dto/product-availability.dto';
 import { SellProductDto } from '../dto/sell-product.dto';
 import { ShopService } from '../services/shop.service';
 
@@ -34,10 +34,7 @@ export class ShopController {
           success: true,
         };
       }
-      return {
-        success: false,
-        message: 'product is not available',
-      };
+      throw new BadRequestException('Product is not available');
     } catch (error) {
       this.logger.error(error);
       throw error;
