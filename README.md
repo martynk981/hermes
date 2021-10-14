@@ -23,6 +23,7 @@ $ npm run test:e2e
 Storage: PostgresDB
 APP framework: NestJs
 Language: NodeJS+TypeScript
+DB structure: [init.sql](db/01-init.sh)
 
 
 Application consists of two modules:
