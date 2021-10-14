@@ -26,5 +26,10 @@ Language: NodeJS+TypeScript
 
 
 Application consists of two modules:
- *[data-loader](src/data-loader): to upload the data from files 
- *[shop](src/shop): to review and to sell the products
+ * [data-loader](src/data-loader): to upload the data from files 
+ * [shop](src/shop): to review and to sell the products
+
+## TODO
+* impove open api schemas
+* add validation for the uploading files
+* add unit tests (currently there are only e2e tests)
