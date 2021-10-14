@@ -4,18 +4,18 @@ import { ProductContentModel } from 'src/database/models/product-content.model';
 import { ProductModel } from 'src/database/models/product.model';
 import { ArticlesRepository } from 'src/database/repositories/articles.repository';
 import { ProductsRepository } from 'src/database/repositories/products.repository';
-import { ArticleDto } from '../dto/article.dto';
-import { ProductDto } from '../dto/product.dto';
-import { ProductInsertDto } from '../dto/products/product-insert.dto';
+import { ArticleDto } from '../dto/inventory/article.dto';
+import { ProductDto } from '../dto/products/product.dto';
+import { ProductInsertDto } from '../dto/product-insert.dto';
 
 @Injectable()
-export class InventoryService {
+export class DataLoaderService {
   constructor(
     private readonly articlesRepository: ArticlesRepository,
     private readonly productsRepository: ProductsRepository,
   ) {}
 
-  async loadInventory(articlesDto: Array<ArticleDto>) {
+  async uploadArticles(articlesDto: Array<ArticleDto>) {
     const articles = articlesDto.map((dto) => {
       const article = new ArticleModel();
       article.id = dto.art_id;
@@ -24,10 +24,11 @@ export class InventoryService {
 
       return article;
     });
-    await this.articlesRepository.batchInsert(articles);
+
+    await this.articlesRepository.upsert(articles);
   }
 
-  loadProducts(productsDto: Array<ProductDto>): Promise<number[]> {
+  async uploadProducts(productsDto: Array<ProductDto>) {
     const data: ProductInsertDto = productsDto.reduce(
       (acc, dto) => {
         const product = new ProductModel();
@@ -50,6 +51,6 @@ export class InventoryService {
       },
     );
 
-    return this.productsRepository.insertProducts(data);
+    await this.productsRepository.insert(data);
   }
 }

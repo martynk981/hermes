@@ -3,6 +3,7 @@ import { KnexModule } from 'nestjs-knex';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DataLoaderModule } from './data-loader/data-loader.module';
 import { configValidationSchema } from './config/config.schema';
+import { ShopModule } from './shop/shop.module';
 
 @Module({
   imports: [
@@ -30,6 +31,8 @@ import { configValidationSchema } from './config/config.schema';
     }),
 
     DataLoaderModule,
+
+    ShopModule,
   ],
 })
 export class AppModule {}
